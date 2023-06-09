@@ -1,16 +1,19 @@
 import {
+  Body,
   Controller,
   Get,
   Header,
   HttpCode,
   Param,
   Post,
+  Put,
   Query,
   Redirect,
   Req,
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { CreateSoldierDto } from './dto';
 
 @Controller('army')
 export class ArmyController {
@@ -48,5 +51,20 @@ export class ArmyController {
   @Get(':name')
   getSoliderById(@Param('name') name: string): string {
     return `This is soldier: ${name}`;
+  }
+
+  @Post('soldier')
+  async createSoldier(@Body() createSoldierDto: CreateSoldierDto) {
+    return createSoldierDto;
+  }
+
+  @Put('soldier/:id')
+  replaceSoldier(
+    @Param('id') id: string,
+    @Body() createSoldierDto: CreateSoldierDto,
+  ) {
+    return `Replaced soldier of id ${id} with new ${JSON.stringify(
+      createSoldierDto,
+    )}`;
   }
 }
