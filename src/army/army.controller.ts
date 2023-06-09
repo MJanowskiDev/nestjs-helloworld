@@ -4,6 +4,7 @@ import {
   Get,
   Header,
   HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -66,5 +67,11 @@ export class ArmyController {
     return `Replaced soldier of id ${id} with new ${JSON.stringify(
       createSoldierDto,
     )}`;
+  }
+
+  @Get('soldier/best')
+  findBest(@Res({ passthrough: true }) res: Response) {
+    res.status(HttpStatus.ACCEPTED);
+    return [];
   }
 }
