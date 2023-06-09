@@ -14,10 +14,14 @@ import {
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { CreateSoldierDto } from './dto';
+import { CreateSoldierDto } from './dto/create-soldier.dto';
+import { Soldier } from './interfaces/soldier.interface';
+import { ArmyService } from './army.service';
 
 @Controller('army')
 export class ArmyController {
+  constructor(private armyService: ArmyService) {}
+
   @Get('randomized')
   @HttpCode(202)
   getRandomizedArmy() {
@@ -25,7 +29,7 @@ export class ArmyController {
   }
 
   @Get('ab*cd')
-  getArmy(@Res() response: Response, @Req() request: Request) {
+  getWildcardArmy(@Res() response: Response, @Req() request: Request) {
     return response
       .status(203)
       .send({ msg: 'Wildcard army', href: request.url });
@@ -54,11 +58,6 @@ export class ArmyController {
     return `This is soldier: ${name}`;
   }
 
-  @Post('soldier')
-  async createSoldier(@Body() createSoldierDto: CreateSoldierDto) {
-    return createSoldierDto;
-  }
-
   @Put('soldier/:id')
   replaceSoldier(
     @Param('id') id: string,
@@ -73,5 +72,15 @@ export class ArmyController {
   findBest(@Res({ passthrough: true }) res: Response) {
     res.status(HttpStatus.ACCEPTED);
     return [];
+  }
+
+  @Get()
+  getArmy(): Soldier[] {
+    return this.armyService.findAll();
+  }
+
+  @Post('soldier')
+  async createSoldier(@Body() createSoldierDto: CreateSoldierDto) {
+    return this.armyService.create(createSoldierDto);
   }
 }
