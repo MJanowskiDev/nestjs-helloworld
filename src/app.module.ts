@@ -9,7 +9,6 @@ import { AppService } from './app.service';
 import { AdminController } from './admin/admin.controller';
 import { ArmyModule } from './army/army.module';
 import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
-import { FunctionalLoggerMiddleware } from './common/middleware/functional-logger/functional-logger.middleware';
 
 @Module({
   imports: [ArmyModule],
@@ -19,7 +18,7 @@ import { FunctionalLoggerMiddleware } from './common/middleware/functional-logge
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(LoggerMiddleware, FunctionalLoggerMiddleware)
+      .apply(LoggerMiddleware)
       .forRoutes({ path: '/army', method: RequestMethod.GET });
   }
 }
