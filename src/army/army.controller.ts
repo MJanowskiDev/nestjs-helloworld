@@ -4,6 +4,7 @@ import {
   Get,
   Header,
   HttpCode,
+  HttpException,
   HttpStatus,
   Param,
   Post,
@@ -76,11 +77,17 @@ export class ArmyController {
 
   @Get()
   getArmy(): Soldier[] {
-    return this.armyService.findAll();
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    // return this.armyService.findAll();
   }
 
   @Post('soldier')
   async createSoldier(@Body() createSoldierDto: CreateSoldierDto) {
     return this.armyService.create(createSoldierDto);
+  }
+
+  @Get('error')
+  async getArmyError() {
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
   }
 }
