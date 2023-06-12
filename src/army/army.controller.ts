@@ -7,6 +7,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -84,6 +85,11 @@ export class ArmyController {
   @Post('soldier')
   async createSoldier(@Body() createSoldierDto: CreateSoldierDto) {
     return this.armyService.create(createSoldierDto);
+  }
+
+  @Get('soldier/:id')
+  async getOneSoldier(@Param('id', ParseIntPipe) id: number) {
+    return this.armyService.findOne(id);
   }
 
   @Get('error')

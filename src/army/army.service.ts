@@ -9,6 +9,10 @@ export class ArmyService {
     this.army.push(soldier);
   }
 
+  findOne(id: number) {
+    return this.army.find((s) => s.id === id);
+  }
+
   findAll(): Soldier[] {
     return this.army;
   }

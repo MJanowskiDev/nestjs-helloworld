@@ -20,6 +20,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
       path: request.url,
       customField: 'This is custom field',
       hostType: host.getType(),
+      message: exception.message,
+      exception: exception,
     });
   }
 }
