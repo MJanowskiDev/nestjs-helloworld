@@ -22,6 +22,7 @@ import { Soldier } from './interfaces/soldier.interface';
 import { ArmyService } from './army.service';
 import { JoiValidationPipe } from './validators/soldier-validation.pipe';
 import { createSoldierSchema } from './schema/soldier.schema';
+import { ClassValidationPipe } from './validators/class-validation.pipe';
 
 @Controller('army')
 export class ArmyController {
@@ -88,6 +89,14 @@ export class ArmyController {
   @Post('soldier')
   @UsePipes(new JoiValidationPipe(createSoldierSchema))
   async createSoldier(@Body() createSoldierDto: CreateSoldierDto) {
+    return this.armyService.create(createSoldierDto);
+  }
+
+  @Post('soldier-class')
+  @UsePipes(new JoiValidationPipe(createSoldierSchema))
+  async createSoldierClassValidator(
+    @Body(new ClassValidationPipe()) createSoldierDto: CreateSoldierDto,
+  ) {
     return this.armyService.create(createSoldierDto);
   }
 
