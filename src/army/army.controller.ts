@@ -14,11 +14,14 @@ import {
   Redirect,
   Req,
   Res,
+  UsePipes,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { CreateSoldierDto } from './dto/create-soldier.dto';
 import { Soldier } from './interfaces/soldier.interface';
 import { ArmyService } from './army.service';
+import { JoiValidationPipe } from './validators/soldier-validation.pipe';
+import { createSoldierSchema } from './schema/soldier.schema';
 
 @Controller('army')
 export class ArmyController {
@@ -83,6 +86,7 @@ export class ArmyController {
   }
 
   @Post('soldier')
+  @UsePipes(new JoiValidationPipe(createSoldierSchema))
   async createSoldier(@Body() createSoldierDto: CreateSoldierDto) {
     return this.armyService.create(createSoldierDto);
   }
