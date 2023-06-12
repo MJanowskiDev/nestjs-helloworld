@@ -7,7 +7,6 @@ import {
   HttpException,
   HttpStatus,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -23,6 +22,7 @@ import { ArmyService } from './army.service';
 import { JoiValidationPipe } from './validators/soldier-validation.pipe';
 import { createSoldierSchema } from './schema/soldier.schema';
 import { ClassValidationPipe } from './validators/class-validation.pipe';
+import { ParseIntPipe } from 'src/common/pipe/parse-int.pipe';
 
 @Controller('army')
 export class ArmyController {
@@ -102,6 +102,11 @@ export class ArmyController {
 
   @Get('soldier/:id')
   async getOneSoldier(@Param('id', ParseIntPipe) id: number) {
+    return this.armyService.findOne(id);
+  }
+
+  @Get('soldier/v2/:id')
+  getOneSoldierV2(@Param('id', new ParseIntPipe()) id: number) {
     return this.armyService.findOne(id);
   }
 
