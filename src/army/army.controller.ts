@@ -1,12 +1,14 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Get,
   Header,
   HttpCode,
   HttpException,
   HttpStatus,
   Param,
+  ParseBoolPipe,
   Post,
   Put,
   Query,
@@ -58,8 +60,8 @@ export class ArmyController {
     }
   }
 
-  //localhost:3000/army/:name
-  @Get(':name')
+  //localhost:3000/army/name/:name
+  @Get('/name/:name')
   getSoliderById(@Param('name') name: string): string {
     return `This is soldier: ${name}`;
   }
@@ -113,5 +115,13 @@ export class ArmyController {
   @Get('error')
   async getArmyError() {
     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+  }
+
+  @Get('soldier-active')
+  findAll(
+    @Query('activeOnly', new DefaultValuePipe(true), ParseBoolPipe)
+    activeOnly: boolean,
+  ) {
+    console.log('This is default query param activeOnly', activeOnly);
   }
 }
