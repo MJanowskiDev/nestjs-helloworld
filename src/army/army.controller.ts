@@ -15,6 +15,7 @@ import {
   Redirect,
   Req,
   Res,
+  SetMetadata,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -27,10 +28,17 @@ import { createSoldierSchema } from './schema/soldier.schema';
 import { ClassValidationPipe } from './validators/class-validation.pipe';
 import { ParseIntPipe } from 'src/common/pipe/parse-int.pipe';
 import { AuthGuard } from 'src/common/guards/auth.guard';
+import { Roles } from 'src/common/roles/roles.decorator';
 
 @Controller('army')
 export class ArmyController {
   constructor(private armyService: ArmyService) {}
+
+  @Post('soldier/metadata')
+  @Roles('admin')
+  async createWithMetadata(@Body() createSoldierDto: CreateSoldierDto) {
+    this.armyService.create(createSoldierDto);
+  }
 
   @Get('guard')
   @UseGuards(AuthGuard)
