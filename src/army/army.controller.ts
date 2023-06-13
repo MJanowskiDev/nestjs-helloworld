@@ -30,6 +30,7 @@ import { ParseIntPipe } from 'src/common/pipe/parse-int.pipe';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { Roles } from 'src/common/roles/roles.decorator';
 import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor';
+import { ErrorsInterceptor } from 'src/common/interceptors/error.interceptor';
 
 @Controller('army')
 @UseInterceptors(LoggingInterceptor)
@@ -129,10 +130,10 @@ export class ArmyController {
   getOneSoldierV2(@Param('id', new ParseIntPipe()) id: number) {
     return this.armyService.findOne(id);
   }
-
   @Get('error')
+  @UseInterceptors(ErrorsInterceptor)
   async getArmyError() {
-    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    throw new HttpException('Forbidden', HttpStatus.AMBIGUOUS);
   }
 
   @Get('soldier-active')
