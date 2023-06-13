@@ -15,6 +15,7 @@ import {
   Redirect,
   Req,
   Res,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -25,10 +26,17 @@ import { JoiValidationPipe } from './validators/soldier-validation.pipe';
 import { createSoldierSchema } from './schema/soldier.schema';
 import { ClassValidationPipe } from './validators/class-validation.pipe';
 import { ParseIntPipe } from 'src/common/pipe/parse-int.pipe';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('army')
 export class ArmyController {
   constructor(private armyService: ArmyService) {}
+
+  @Get('guard')
+  @UseGuards(AuthGuard)
+  getStatus() {
+    return 'OK';
+  }
 
   @Get('randomized')
   @HttpCode(202)
