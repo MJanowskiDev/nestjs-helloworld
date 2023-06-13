@@ -31,6 +31,7 @@ import { AuthGuard } from 'src/common/guards/auth.guard';
 import { Roles } from 'src/common/roles/roles.decorator';
 import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor';
 import { ErrorsInterceptor } from 'src/common/interceptors/error.interceptor';
+import { TimeoutInterceptor } from 'src/common/interceptors/timeout.interceptor';
 
 @Controller('army')
 @UseInterceptors(LoggingInterceptor)
@@ -142,5 +143,15 @@ export class ArmyController {
     activeOnly: boolean,
   ) {
     console.log('This is default query param activeOnly', activeOnly);
+  }
+
+  @Get('timeout')
+  @UseInterceptors(TimeoutInterceptor)
+  async getTimedOut() {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 5000);
+    });
   }
 }
