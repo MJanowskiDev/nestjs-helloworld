@@ -15,8 +15,8 @@ import {
   Redirect,
   Req,
   Res,
-  SetMetadata,
   UseGuards,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -29,8 +29,10 @@ import { ClassValidationPipe } from './validators/class-validation.pipe';
 import { ParseIntPipe } from 'src/common/pipe/parse-int.pipe';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { Roles } from 'src/common/roles/roles.decorator';
+import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor';
 
 @Controller('army')
+@UseInterceptors(LoggingInterceptor)
 export class ArmyController {
   constructor(private armyService: ArmyService) {}
 
